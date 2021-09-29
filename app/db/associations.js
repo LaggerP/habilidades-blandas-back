@@ -15,7 +15,7 @@ UserGroup.hasOne(Group, {foreignKey: 'id_group'});
 UserExercise.hasOne(User, {foreignKey: 'id_userExercise'});
 UserExercise.hasOne(Exercise, {foreignKey: 'id_exerciseUser'});
 
-//UserExercise tiene un Group y Exercise
+//GroupExercise tiene un Group y Exercise
 GroupExercise.hasOne(Group, {foreignKey: 'id_groupExercise'});
 GroupExercise.hasOne(Exercise, {foreignKey: 'id_exerciseGroup'});
 
