@@ -5,15 +5,13 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
+        exerciseDescription: {
             type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                len: {
-                    args: [2, 255],
-                    msg: "ERROR-2"
-                }
-            }
+            allowNull: false
+        },
+        exercise: {
+            type: Sequelize.STRING,
+            allowNull: false
         }
     });
     return Exercise;

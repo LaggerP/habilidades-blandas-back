@@ -12,6 +12,12 @@ module.exports = (sequelize, Sequelize) => {
         id_user: {
             type: Sequelize.INTEGER,
             allowNull: false,
+        },
+        note:{
+            type: Sequelize.INTEGER
+        },
+        teacherComment:{
+            type: Sequelize.STRING
         }
     });
     return userExercise;
