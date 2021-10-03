@@ -10,6 +10,7 @@ ___
 #### Configuración de ambiente de desarrollo: 
 
 Para hacer uso completo de la aplicación de forma local es necesario tener una BD MySQL corriendo bajo el puerto 3306. 
+Puede usarse Docker u otro servicio como **XAMPP** para tener la base de datos activa.
 #### Comando Docker para crear imagen MySQL:
 
 `docker run -p 3306:3306 --name tu_DB_local_DB -e MYSQL_ROOT_PASSWORD=tu_DB_local_PASS -d mysql`
@@ -35,7 +36,7 @@ ___
 ####¿Cómo correr el proyecto?
 
 Para correr el proyecto es necesario tener una base de datos MySQL activa. Al correr el comando `node server.js` se 
-crearán las tablas en la BD (si es que aún no existen).
+crearán las tablas y relaciones en la BD (si es que aún no existen).
 ___
 
 #### Endpoints:

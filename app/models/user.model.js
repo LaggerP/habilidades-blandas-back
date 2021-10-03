@@ -40,7 +40,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         phoneNumber: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: true
         },
         points: {
             type: Sequelize.INTEGER

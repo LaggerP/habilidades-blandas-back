@@ -7,11 +7,13 @@ module.exports = (sequelize, Sequelize) => {
         },
         exerciseDescription: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         exercise: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     });
     return Exercise;

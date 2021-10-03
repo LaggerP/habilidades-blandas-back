@@ -5,19 +5,15 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        id_exercise: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-        },
-        id_user: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-        },
         note:{
             type: Sequelize.INTEGER
         },
         teacherComment:{
             type: Sequelize.STRING
+        },
+        state:{
+            type: Sequelize.STRING,
+            defaultValue: "SIN_HACER"
         }
     });
     return userExercise;

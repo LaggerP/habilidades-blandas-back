@@ -22,9 +22,7 @@ db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.group = require("./group.model.js")(sequelize, Sequelize);
-db.userGroup = require("./userGroup.model.js")(sequelize, Sequelize);
 db.exercise = require("./exercice.model.js")(sequelize, Sequelize);
 db.userExercise = require("./userExercise.model.js")(sequelize, Sequelize);
-db.groupExercise = require("./groupExercise.model")(sequelize, Sequelize);
 
 module.exports = db;
