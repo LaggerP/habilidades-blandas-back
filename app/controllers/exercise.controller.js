@@ -4,18 +4,18 @@ const UserExercise = db.userExercise;
 const User = db.user;
 
 /* DESCOMENTAR UNA VEZ QUE SE CREARON LAS TABLAS PARA PODER CREAR ESTOS EJERCICIOS DUMMY
+
 createExercises = async () => {
     await Exercise.bulkCreate([
-        {exerciseDescription: 'Descripción ejercicio 1', exercise: "Consigna ejercicio 1"},
-        {exerciseDescription: 'Descripción ejercicio 2', exercise: "Consigna ejercicio 2"},
-        {exerciseDescription: 'Descripción ejercicio 3', exercise: "Consigna ejercicio 3"},
+        {exerciseDescription: 'Descripción ejercicio 1', exercise: "Consigna ejercicio 1", uriImg:"link1"},
+        {exerciseDescription: 'Descripción ejercicio 2', exercise: "Consigna ejercicio 2", uriImg:"link2"},
+        {exerciseDescription: 'Descripción ejercicio 3', exercise: "Consigna ejercicio 3", uriImg:"link3"},
     ])
 }
 createExercises()
   .then(r => console.log("EJERCICIOS CREADOS CON ÉXITO"))
-  .catch(e => console.log("OCURRIÓ UN ERROR AL CREAR EJERCICIOS"));
+  .catch(e => console.log("OCURRIÓ UN ERROR AL CREAR EJERCICIOS", e));
 */
-
 
 exports.getExercisesByUserId = async (req, res) => {
     try{
