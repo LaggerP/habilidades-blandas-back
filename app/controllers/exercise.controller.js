@@ -2,7 +2,7 @@ const db = require("../models");
 const Exercise = db.exercise;
 const UserExercise = db.userExercise;
 const User = db.user;
-
+/*
 createExercises = async () => {
     await Exercise.bulkCreate([
         {exerciseDescription: 'Descripción ejercicio 1', exercise: "Consigna ejercicio 1", uriImg:"link1"},
@@ -13,7 +13,7 @@ createExercises = async () => {
 createExercises()
   .then(r => console.log("EJERCICIOS CREADOS CON ÉXITO"))
   .catch(e => console.log("OCURRIÓ UN ERROR AL CREAR EJERCICIOS", e));
-
+*/
 
 exports.getExercisesByUserId = async (req, res) => {
     try{
