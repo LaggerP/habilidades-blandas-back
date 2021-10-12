@@ -39,12 +39,25 @@ module.exports = (sequelize, Sequelize) => {
                 }
             }
         },
+        position: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            validate: {
+                len: {
+                    args: [2, 255],
+                    msg: "ERROR-4"
+                }
+            }
+        },
         phoneNumber: {
             type: Sequelize.STRING,
             unique: true
         },
         points: {
             type: Sequelize.INTEGER
+        },
+        uriImgProfile: {
+            type: Sequelize.STRING,
         }
     });
     return User;
