@@ -24,7 +24,7 @@ exports.getExercisesByUserId = async (req, res) => {
 
         if (result !== null) {
             delete result.dataValues.password
-            res.status(200).send(result)
+            res.status(200).send(result.exercises)
         }
         res.status(404).send("No se encontró ningún ejercicio con el usuario proporcionado.")
     } catch (e) {
