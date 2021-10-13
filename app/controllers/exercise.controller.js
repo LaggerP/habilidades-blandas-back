@@ -2,12 +2,13 @@ const db = require("../models");
 const Exercise = db.exercise;
 const UserExercise = db.userExercise;
 const User = db.user;
-/*
+
+ /*
 createExercises = async () => {
     await Exercise.bulkCreate([
-        {exerciseDescription: 'Descripción ejercicio 1', exercise: "Consigna ejercicio 1", uriImg:"link1"},
-        {exerciseDescription: 'Descripción ejercicio 2', exercise: "Consigna ejercicio 2", uriImg:"link2"},
-        {exerciseDescription: 'Descripción ejercicio 3', exercise: "Consigna ejercicio 3", uriImg:"link3"},
+        {title:'Titulo ejercicio 1', exerciseDescription: 'Descripción ejercicio 1', exercise: "Consigna ejercicio 1", uriImg:"http://2.bp.blogspot.com/-1ERbtbziGZc/Uk0i8sN6yrI/AAAAAAAAAhc/Rns8zRUPYA0/s1600/551351_134849146705388_1524579026_n.jpg"},
+        {title:'Titulo ejercicio 2', exerciseDescription: 'Descripción ejercicio 2', exercise: "Consigna ejercicio 2", uriImg:"https://mir-s3-cdn-cf.behance.net/project_modules/disp/7ccc5f11345327.560317912b118.jpg"},
+        {title:'Titulo ejercicio 3', exerciseDescription: 'Descripción ejercicio 3', exercise: "Consigna ejercicio 3", uriImg:"https://lh3.googleusercontent.com/proxy/az9kiBCnBU7O2OLLcBVoz3robJOXCC7izIomaKWhe34J6ewruoOKXf26Gdgjd-Cr04U45RXzL0JcAPMdIo8z6OEEWtD7JSmUw94tYvXMO5Z421WoOQFqkGQ5"}
     ])
 }
 createExercises()
@@ -15,6 +16,11 @@ createExercises()
   .catch(e => console.log("OCURRIÓ UN ERROR AL CREAR EJERCICIOS", e));
 */
 
+/**
+ * Obtiene todos los ejercicios de un usuario a partir de su UserId.
+ * @param req
+ * @param res
+ */
 exports.getExercisesByUserId = async (req, res) => {
     try {
         const result = await User.findOne({
@@ -22,7 +28,7 @@ exports.getExercisesByUserId = async (req, res) => {
             include: Exercise
         });
 
-        if (result.exercises.length>0) {
+        if (result.exercises.length > 0) {
             res.status(200).send(result.exercises)
         }
         res.status(404).send("No se encontró ningún ejercicio con el usuario proporcionado.")
@@ -31,6 +37,11 @@ exports.getExercisesByUserId = async (req, res) => {
     }
 };
 
+/**
+ * Actualiza el estado de un ejercicio a partir del userExerciseId.
+ * @param req
+ * @param res
+ */
 exports.changeExerciseStatus = async (req, res) => {
     try {
         const result = await UserExercise.update(
@@ -46,3 +57,46 @@ exports.changeExerciseStatus = async (req, res) => {
     }
 };
 
+
+/**
+ * Actualiza la respuesta de un ejercicio a partir del userExerciseId.
+ * @param req
+ * @param res
+ */
+exports.changeUserAnswer = async (req, res) => {
+    try {
+        const result = await UserExercise.update(
+          {userAnswer: req.body.answer},
+          {where: {id: req.params.userExerciseId}}
+        );
+        if (result[0] === 1) {
+            res.status(200).send(`Respuesta del ejercicio ${req.params.userExerciseId} actualizado con éxito.`)
+        }
+        res.status(404).send("No se encontró ningún ejercicio con el exerciseId proporcionado.")
+    } catch (e) {
+        res.status(404).send(e.parent.sqlMessage)
+    }
+};
+
+/**
+ * Actualiza la corrección de un ejercicio a partir del userExerciseId.
+ * @param req
+ * @param res
+ */
+exports.makeTeacherCorrection = async (req, res) => {
+    try {
+        const result = await UserExercise.update(
+          {
+              note: req.body.note,
+              teacherComment: req.body.teacherComment
+          },
+          {where: {id: req.params.userExerciseId}}
+        );
+        if (result[0] === 1) {
+            res.status(200).send(`Corrección del ejercicio ${req.params.userExerciseId} actualizado con éxito.`)
+        }
+        res.status(404).send("No se encontró ningún ejercicio con el exerciseId proporcionado.")
+    } catch (e) {
+        res.status(404).send(e.parent.sqlMessage)
+    }
+};
