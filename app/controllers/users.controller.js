@@ -16,7 +16,11 @@ createUser()
 exports.getUserDataByUserId = async (req, res) => {
     try {
         const result = await User.findOne({
-            where: {id: req.params.userId}
+            where: { id: req.params.userId },
+            include: [{
+                model: Exercise,
+                required: false
+            }]
         });
 
         if (result !== null) {
