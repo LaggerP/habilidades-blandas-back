@@ -12,14 +12,11 @@ createUser()
     .then(r => console.log("USUARIO CREADO CON ÉXITO"))
     .catch(e => console.log("OCURRIÓ UN ERROR AL CREAR EL USUARIO"));
 */
+
 exports.getUserDataByUserId = async (req, res) => {
     try {
         const result = await User.findOne({
-            where: { id: req.params.userId },
-            include: [{
-                model: Exercise,
-                required: false
-            }]
+            where: {id: req.params.userId}
         });
 
         if (result !== null) {

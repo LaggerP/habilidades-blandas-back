@@ -16,7 +16,7 @@ createExercises()
 */
 
 exports.getExercisesByUserId = async (req, res) => {
-    try{
+    try {
         const result = await User.findOne({
             where: {id: req.params.userId},
             include: Exercise
@@ -27,22 +27,22 @@ exports.getExercisesByUserId = async (req, res) => {
             res.status(200).send(result)
         }
         res.status(404).send("No se encontró ningún ejercicio con el usuario proporcionado.")
-    }catch (e){
+    } catch (e) {
         res.status(404).send(e.parent.sqlMessage)
     }
 };
 
 exports.changeExerciseStatus = async (req, res) => {
-    try{
+    try {
         const result = await UserExercise.update(
-          { state: req.body.state },
+          {state: req.body.state},
           {where: {id: req.params.userExerciseId}}
         );
-        if (result[0]===1) {
+        if (result[0] === 1) {
             res.status(200).send(`Estado del ejercicio ${req.params.userExerciseId} actualizado con éxito.`)
         }
         res.status(404).send("No se encontró ningún ejercicio con el exerciseId proporcionado.")
-    }catch (e){
+    } catch (e) {
         res.status(404).send(e.parent.sqlMessage)
     }
 };
