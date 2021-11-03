@@ -6,7 +6,7 @@ const app = express();
 
 const db = require("./app/models");
 require('./app/db/associations');
-db.sequelize.sync();
+db.sequelize.sync()
 
 
 app.use(cors());

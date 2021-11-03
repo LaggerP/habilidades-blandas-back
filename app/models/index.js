@@ -1,5 +1,5 @@
-const dbConfig = require('../config/db.config.js');
-
+const dbConfig = require("../config/db.config.js");
+console.log(dbConfig);
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -11,8 +11,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
+    idle: dbConfig.pool.idle,
+  },
 });
 
 const db = {};
@@ -24,5 +24,8 @@ db.user = require("./user.model.js")(sequelize, Sequelize);
 db.group = require("./group.model.js")(sequelize, Sequelize);
 db.exercise = require("./exercice.model.js")(sequelize, Sequelize);
 db.userExercise = require("./userExercise.model.js")(sequelize, Sequelize);
+db.ranking = require("./ranking.model.js")(sequelize, Sequelize);
+db.categorias = require("./category.model.js")(sequelize, Sequelize);
+db.groupExercise = require("./groupExercise.model.js")(sequelize, Sequelize);
 
 module.exports = db;

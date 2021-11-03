@@ -1,11 +1,13 @@
+const { group } = require(".");
+
 module.exports = (sequelize, Sequelize) => {
-    const userExercise = sequelize.define("user_exercise", {
+    const groupExercise = sequelize.define("group_exercise", {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        userAnswer:{
+        groupAnswer:{
             type: Sequelize.STRING
         },
         note:{
@@ -19,5 +21,5 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: "PENDIENTE"
         }
     });
-    return userExercise;
+    return groupExercise;
 };
