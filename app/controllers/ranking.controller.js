@@ -34,8 +34,8 @@ exports.getRankingGeneral = async (req, res) => {
       { group: ["userId", "exerciseId"] }
     );
     //Me devuelven todos los ejercicios, los completados y
-    var resultMap = getAllCompletadas(resultUserExercises);
-    var listaCategorias = getAllPuntosPorCategoria(result, resultMap);
+    let resultMap = getAllCompletadas(resultUserExercises);
+    let listaCategorias = getAllPuntosPorCategoria(result, resultMap);
 
     return res.status(200).json({ message: listaCategorias });
   } catch (e) {
@@ -44,12 +44,12 @@ exports.getRankingGeneral = async (req, res) => {
 };
 
 const getAllCompletadas = (listaEjercicios) => {
-  var mapReturn = new Map();
+  let mapReturn = new Map();
   listaEjercicios.forEach((element) => {
     if (element.state === "COMPLETADA") {
       if (mapReturn.has(element.exerciseId)) {
         //Tiene la categoría, la sumo a lo que tiene normal
-        var previousValue = mapReturn.get(element.exerciseId);
+        let previousValue = mapReturn.get(element.exerciseId);
         mapReturn.set(element.exerciseId, previousValue + element.note);
         //console.log("XX - Agregó en el if: "+mapReturn)
       } else {
@@ -62,23 +62,23 @@ const getAllCompletadas = (listaEjercicios) => {
 };
 
 const getAllPuntosPorCategoria = (listaCategorias, mapValores) => {
-  var translate = new Map();
+  let translate = new Map();
   listaCategorias.forEach((e) => {
     if (translate.has(e.exerciseCategory)) {
-      var value = translate.get(e.exerciseCategory);
-      var lista = [value, e.id];
+      let value = translate.get(e.exerciseCategory);
+      let lista = [value, e.id];
       translate.set(e.exerciseCategory, lista);
     } else {
       translate.set(e.exerciseCategory, e.id);
     }
   });
-  var retornoRankings = [];
+  let retornoRankings = [];
   for (const [key, value] of translate.entries()) {
     if (!value.length) {
       const objeto = { categoria: key, puntos: mapValores.get(value) };
       retornoRankings.push(objeto);
     } else {
-      var objeto = 0;
+      let objeto = 0;
       value.forEach((e) => {
         objeto += mapValores.get(e);
       });
@@ -86,7 +86,6 @@ const getAllPuntosPorCategoria = (listaCategorias, mapValores) => {
       retornoRankings.push(guardaar);
     }
   }
-  console.log(retornoRankings);
 
   return retornoRankings;
 };

@@ -1,7 +1,7 @@
 const db = require("../models");
-const Categoria = db.categorias;
+const Categories = db.categories;
 
-const getAllCategorias = async (req, res) => {
+const getAllCategories = async (req, res) => {
   try {
     const result = await Categoria.findAll({ order: [["name", "DESC"]] });
     return res.status(200).json({ message: result });
@@ -24,6 +24,6 @@ const postCategory = async (req, res) => {
 };
 
 module.exports = {
-  getAllCategorias,
+  getAllCategories,
   postCategory,
 };

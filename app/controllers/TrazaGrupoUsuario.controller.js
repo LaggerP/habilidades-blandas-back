@@ -30,7 +30,7 @@ exports.getTrazaUserGroup = async (req, res) => {
 };
 
 exports.getCountTrazaUserGroup = async (req, res) => {
-  var guardarRegistro;
+  let guardarRegistro;
   try {
     const { groupId } = req.params;
     guardarRegistro = await TrazaGrupoUsuario.findAll({
