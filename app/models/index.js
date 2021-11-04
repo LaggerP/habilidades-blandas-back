@@ -1,5 +1,4 @@
 const dbConfig = require("../config/db.config.js");
-console.log(dbConfig);
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(dbConfig.DATABASE_URL, {
@@ -23,7 +22,7 @@ db.group = require("./group.model.js")(sequelize, Sequelize);
 db.exercise = require("./exercice.model.js")(sequelize, Sequelize);
 db.userExercise = require("./userExercise.model.js")(sequelize, Sequelize);
 db.ranking = require("./ranking.model.js")(sequelize, Sequelize);
-db.categorias = require("./category.model.js")(sequelize, Sequelize);
+db.categories = require("./category.model.js")(sequelize, Sequelize);
 db.groupExercise = require("./groupExercise.model.js")(sequelize, Sequelize);
-db.trazaGrupoUsuario = require("./traza_grupos_usuarios.js")(sequelize,Sequelize)  
+db.trazaGrupoUsuario = require("./traza_grupos_usuarios.js")(sequelize,Sequelize)
 module.exports = db;

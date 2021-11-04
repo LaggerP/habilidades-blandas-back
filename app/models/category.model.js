@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Categorias = sequelize.define("categorias", {
+  const Categories = sequelize.define("categories", {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -11,5 +11,5 @@ module.exports = (sequelize, Sequelize) => {
       unique: true,
     },
   });
-  return Categorias;
+  return Categories;
 };
