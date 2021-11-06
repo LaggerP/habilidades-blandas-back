@@ -70,7 +70,7 @@ exports.registerUser = async function (req, res) {
 
   try {
     // Calling the Service function with the new object from the Request Body
-    var createdUser = await createUser(User);
+    let createdUser = await createUser(User);
     return res
       .status(201)
       .json({ user: createdUser, message: "Succesfully Created User" });
@@ -83,7 +83,7 @@ exports.registerUser = async function (req, res) {
 
 exports.createUser = async function (user) {
   try {
-    var savedUser = await registerUser(user);
+    let savedUser = await registerUser(user);
     console.log("El usuario se guardó correctamente");
     return savedUser;
   } catch (e) {
@@ -94,7 +94,7 @@ exports.createUser = async function (user) {
 
 exports.registerUser = async function (user) {
   try {
-    var newUser = await User.create(user);
+    let newUser = await User.create(user);
     return newUser;
   } catch (e) {
     throw Error("Error while creating user");

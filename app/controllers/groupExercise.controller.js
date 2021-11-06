@@ -4,7 +4,6 @@ const GroupExercise = db.groupExercise;
 const addNewExerciseToGroup = (req, res) => {
   try {
     const {} = req.body;
-    const 
   } catch (error) {
     return res
       .status(400)
