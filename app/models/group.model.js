@@ -1,24 +1,27 @@
 module.exports = (sequelize, Sequelize) => {
-    const Group = sequelize.define("group", {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
+  const Group = sequelize.define("group", {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        len: {
+          args: [2, 255],
+          msg: "ERROR-2",
         },
-        name: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                len: {
-                    args: [2, 255],
-                    msg: "ERROR-2"
-                }
-            }
-        },
-        points: {
-            type: Sequelize.INTEGER
-        }
-    });
-    return Group;
+      },
+    },
+    points: {
+      type: Sequelize.INTEGER,
+    },
+    imagenUri: {
+      type: Sequelize.STRING,
+    },
+  },{freezeTableName:true});
+  return Group;
 };

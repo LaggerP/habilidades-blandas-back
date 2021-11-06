@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+console.log(process.env.DEV)
 module.exports = {
   DATABASE_URL: process.env.DEV === "true" ? process.env.DEV_DATABASE_URL : process.env.DATABASE_URL,
   dialect: 'postgres',

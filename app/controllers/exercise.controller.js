@@ -115,18 +115,20 @@ exports.changeUserAnswer = async (req, res) => {
  * @param res
  */
 exports.makeTeacherCorrection = async (req, res) => {
-    try {
-        const result = await UserExercise.update(
-          {
-              note: req.body.note,
-              teacherComment: req.body.teacherComment,
-              state: "CORREGIDA"
-          },
-          {where: {id: req.params.userExerciseId}}
-        );
+  try {
+    const result = await UserExercise.update(
+      {
+        note: req.body.note,
+        teacherComment: req.body.teacherComment,
+        state: "CORREGIDA",
+      },
+      { where: { id: req.params.userExerciseId } }
+    );
 
-        const userId = (await UserExercise.findOne({where: {id: req.params.userExerciseId}})).dataValues.userId;
-        const userData = (await User.findOne({where: {id: userId}}));
+    const userId = (
+      await UserExercise.findOne({ where: { id: req.params.userExerciseId } })
+    ).dataValues.userId;
+    const userData = await User.findOne({ where: { id: userId } });
 
         const pointsResult = await User.update(
           {
@@ -135,13 +137,22 @@ exports.makeTeacherCorrection = async (req, res) => {
           {where: {id: userId}}
         );
 
-        if (result[0] === 1 && pointsResult[0] === 1) {
-            res.status(200).send(`Corrección del ejercicio ${req.params.userExerciseId} actualizado con éxito.`)
-        }
-        res.status(404).send("No se encontró ningún ejercicio con el exerciseId proporcionado.")
-    } catch (e) {
-        res.status(404).send(e.parent.sqlMessage)
+    if (result[0] === 1 && pointsResult[0] === 1) {
+      res
+        .status(200)
+        .send(
+          `Corrección del ejercicio ${req.params.userExerciseId} actualizado con éxito.`
+        );
     }
+    res
+      .status(404)
+      .send("No se encontró ningún ejercicio con el exerciseId proporcionado.");
+  } catch (e) {
+    res.status(404).send(e.parent.sqlMessage);
+  }
+  res
+    .status(404)
+    .send("No se encontró ningún ejercicio con el exerciseId proporcionado.");
 };
 
 exports.createNewExercise = async (req, res) => {

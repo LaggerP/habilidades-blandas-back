@@ -12,7 +12,7 @@ exports.createTrazaUserGroup = async (req, res) => {
     });
     return res.status(201).json({ message: guardarRegistro });
   } catch (e) {
-    console.log("XX - Error creating new row");
+    console.log("XX - Error creating new row" + e);
     return res.status(400).json({ message: "XX - Error inserting row" });
   }
 };
@@ -33,12 +33,18 @@ exports.getCountTrazaUserGroup = async (req, res) => {
   let guardarRegistro;
   try {
     const { groupId } = req.params;
-    guardarRegistro = await TrazaGrupoUsuario.findAll({
-      where: { groupId: groupId },
-    });
+    guardarRegistro = await countUsers(groupId);
     return res.status(201).json({ count: guardarRegistro.length });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "XX - Error fetching count" });
   }
+};
+
+exports.countUsers = async function(groupId){
+  console.log("XX - Group id "+groupId)
+  var result = await TrazaGrupoUsuario.findAll({
+    where: { groupId: groupId },
+  });
+  return result;
 };
