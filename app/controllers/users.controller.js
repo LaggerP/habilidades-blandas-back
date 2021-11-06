@@ -100,3 +100,12 @@ exports.registerUser = async function (user) {
     throw Error("Error while creating user");
   }
 };
+
+exports.getAllUsers = async function (req, res) {
+  try {
+    const Result = await User.findAll({});
+    return res.status(200).json(Result);
+  } catch (e) {
+    res.status(400).json({ message: "XX - Errro fetching all users" });
+  }
+};
