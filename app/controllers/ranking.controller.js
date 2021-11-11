@@ -28,10 +28,12 @@ exports.getRankingFilter = async (req, res) => {
     const { exerciseCategory } = req.body;
     //select SUM(note),ge.`userId` from exercises ex join user_exercises ge on ex.id = ge.`exerciseId` where ex.`exerciseCategory`='LIDERAZGO' and ge.state='COMPLETADA' group by ge.`userId`;
     let armarResultado = await Sequelize.query(
-      'select SUM(note),ge."userId" from exercises ex join user_exercises ge on ex.id = ge."exerciseId" where ex."exerciseCategory"=:categoria and ge.state=:state group by ge."userId";',
-      { replacements: { categoria: "LIDERAZGO",state:"COMPLETADA"}, type: QueryTypes.SELECT }
+      'select temp."sum",id,(concat(users."firstName",concat(:space,users."lastName"))) from (select SUM(note),ge."userId" from exercises ex join user_exercises ge on ex.id = ge."exerciseId" where ex."exerciseCategory"=:categoria and ge.state=:state group by ge."userId") as temp join users on users.id=temp."userId";',
+      { replacements: { categoria: exerciseCategory,state:"COMPLETADA",space:" "}, type: QueryTypes.SELECT }
     );
-    console.log(armarResultado);
+    if(armarResultado.length==0){
+      return res.status(204).send();
+    }
     return res.status(200).json(armarResultado);
   } catch (e) {
     console.log(e);
