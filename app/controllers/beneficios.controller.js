@@ -1,5 +1,6 @@
 const db = require("../models");
 const Beneficios = db.beneficios;
+const User = db.user;
 
 const getAllBeneficios = async (req, res) => {
   try {
@@ -31,7 +32,31 @@ const postBeneficios = async (req, res) => {
   }
 };
 
+const changePoints = async (req, res) => {
+  try {
+    const pointsResult = await User.update(
+          {
+              points: (req.body.points)
+          },
+          {where: {id:req.params.userId}}
+        );
+        if ( pointsResult[0] === 1) {
+          res
+            .status(200)
+            .send(
+              `Exito en cambiando los puntos del usuario ${req.params.userId}`
+            );
+        } 
+  } catch (e) {
+    console.log("Error en cambiando puntos");
+    return res
+      .status(400)
+      .json({message: "Accion invalida."});
+  }
+};
+
 module.exports = {
   getAllBeneficios,
   postBeneficios,
+  changePoints,
 };
