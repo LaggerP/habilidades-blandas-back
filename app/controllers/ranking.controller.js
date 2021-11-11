@@ -33,15 +33,15 @@ exports.getCategorias = async (req, res) => {
 };
 exports.getRankingFilter = async (req, res) => {
   try {
-    console.log("XX - HEDERS"+JSON.stringify(req.headers))
+    console.log("XX - HEDERS"+JSON.stringify(req.headers.exercisecategory))
     const { exercisecategory } = req.headers;
     //select SUM(note),ge.`userId` from exercises ex join user_exercises ge on ex.id = ge.`exerciseId` where ex.`exerciseCategory`='LIDERAZGO' and ge.state='COMPLETADA' group by ge.`userId`;
     let armarResultado = await Sequelize.query(
-      'select temp."sum",id,(concat(users."firstName",concat(:space,users."lastName"))) from (select SUM(note),ge."userId" from exercises ex join user_exercises ge on ex.id = ge."exerciseId" where ex."exerciseCategory"=:categoria and ge.state=:state group by ge."userId") as temp join users on users.id=temp."userId";',
+      'select temp."sum",id,(concat(users."firstName",concat(:space,users."lastName"))),"uriImgProfile" from (select SUM(note),ge."userId" from exercises ex join user_exercises ge on ex.id = ge."exerciseId" where ex."exerciseCategory"=:categoria and ge.state=:state group by ge."userId") as temp join users on users.id=temp."userId" order by temp."sum" DESC;',
       {
         replacements: {
           categoria: exercisecategory,
-          state: "COMPLETADA",
+          state: "CORREGIDA",
           space: " ",
         },
         type: QueryTypes.SELECT,
