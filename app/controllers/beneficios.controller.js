@@ -44,7 +44,7 @@ const changePoints = async (req, res) => {
           res
             .status(200)
             .send(
-              "Exito en cambiando los puntos del usuario ${req.params.userId}"
+              `Exito en cambiando los puntos del usuario ${req.params.userId}`
             );
         } 
   } catch (e) {
