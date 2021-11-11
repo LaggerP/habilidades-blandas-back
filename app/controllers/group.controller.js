@@ -9,12 +9,12 @@ exports.getAllGrupos = async function (req, res) {
   try {
     //const cantIntegrantes = await Sequelize.query();
     const Equipos = await Sequelize.query(
-      'select name as nombre,"imagenUri" as fotoEquipo,id,cantidadIntegrantes  from "group" join (select count("userId") as cantidadIntegrantes,"groupId" from traza_grupo_usuarios group by "groupId") as temp on temp."groupId"="group".id',
+      'select name as nombre,"imagenUri" as fotoEquipo,id,cantidadIntegrantes as cantIntegrantes  from "group" join (select count("userId") as cantidadIntegrantes,"groupId" from traza_grupo_usuarios group by "groupId") as temp on temp."groupId"="group".id',
       { type: QueryTypes.SELECT }
     );
     const IntegrantesPorEquipo = await Sequelize.query(
-      'select "groupId",points as puntos,concat("firstName","lastName") as nombre, "uriImgProfile" as foto from traza_grupo_usuarios join users u on u.id = traza_grupo_usuarios."userId" where "groupId"=:groupId',
-      { replacements: { groupId: 1 }, type: QueryTypes.SELECT }
+      'select "groupId",points as puntos,concat("firstName","lastName") as nombre, "uriImgProfile" as foto from traza_grupo_usuarios join users u on u.id = traza_grupo_usuarios."userId"',
+      {type: QueryTypes.SELECT }
     );
     Equipos.forEach(element => {
       var lista = []
