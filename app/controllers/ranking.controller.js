@@ -1,11 +1,12 @@
-const sequelize = require("sequelize");
+const { types } = require("pg");
 const { userExercise } = require("../models");
-
+const { QueryTypes } = require("sequelize");
 const db = require("../models");
 const User = db.user;
 const Ranking = db.ranking;
 const Exercise = db.exercise;
 const UserExcersice = db.userExercise;
+const Sequelize = db.sequelize;
 
 exports.getUsersRanking = async (req, res) => {
   try {
@@ -19,6 +20,25 @@ exports.getUsersRanking = async (req, res) => {
     res.status(404).send("Usuario inexistente.");
   } catch (error) {
     res.status(404).send(error.parent.sqlMessage);
+  }
+};
+
+exports.getRankingFilter = async (req, res) => {
+  try {
+    const { exerciseCategory } = req.body;
+    //select SUM(note),ge.`userId` from exercises ex join user_exercises ge on ex.id = ge.`exerciseId` where ex.`exerciseCategory`='LIDERAZGO' and ge.state='COMPLETADA' group by ge.`userId`;
+    let armarResultado = await Sequelize.query(
+      'select SUM(note),ge."userId" from exercises ex join user_exercises ge on ex.id = ge."exerciseId" where ex."exerciseCategory"=:categoria and ge.state=:state group by ge."userId";',
+      { replacements: { categoria: "LIDERAZGO",state:"COMPLETADA"}, type: QueryTypes.SELECT }
+    );
+    console.log(armarResultado);
+    return res.status(200).json(armarResultado);
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      message:
+        "XX - No podes filtrar por categorias de habilidades blandas hahora",
+    });
   }
 };
 
@@ -89,4 +109,3 @@ const getAllPuntosPorCategoria = (listaCategorias, mapValores) => {
 
   return retornoRankings;
 };
-
