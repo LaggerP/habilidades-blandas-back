@@ -1,11 +1,12 @@
-const sequelize = require("sequelize");
+const { types } = require("pg");
 const { userExercise } = require("../models");
-
+const { QueryTypes } = require("sequelize");
 const db = require("../models");
 const User = db.user;
-const Ranking = db.ranking;
+const Categorias = db.categories;
 const Exercise = db.exercise;
 const UserExcersice = db.userExercise;
+const Sequelize = db.sequelize;
 
 exports.getUsersRanking = async (req, res) => {
   try {
@@ -19,6 +20,43 @@ exports.getUsersRanking = async (req, res) => {
     res.status(404).send("Usuario inexistente.");
   } catch (error) {
     res.status(404).send(error.parent.sqlMessage);
+  }
+};
+exports.getCategorias = async (req, res) => {
+  try{
+    const resultado = await Categorias.findAll();
+    res.status(200).json(resultado)
+  }catch(e){
+    console.log(e)
+    res.status(400).json({message: "XX - No podes traerte las cosas ahora"})
+  }
+};
+exports.getRankingFilter = async (req, res) => {
+  try {
+    console.log("XX - HEDERS"+JSON.stringify(req.headers))
+    const { exercisecategory } = req.headers;
+    //select SUM(note),ge.`userId` from exercises ex join user_exercises ge on ex.id = ge.`exerciseId` where ex.`exerciseCategory`='LIDERAZGO' and ge.state='COMPLETADA' group by ge.`userId`;
+    let armarResultado = await Sequelize.query(
+      'select temp."sum",id,(concat(users."firstName",concat(:space,users."lastName"))) from (select SUM(note),ge."userId" from exercises ex join user_exercises ge on ex.id = ge."exerciseId" where ex."exerciseCategory"=:categoria and ge.state=:state group by ge."userId") as temp join users on users.id=temp."userId";',
+      {
+        replacements: {
+          categoria: exercisecategory,
+          state: "COMPLETADA",
+          space: " ",
+        },
+        type: QueryTypes.SELECT,
+      }
+    );
+    if (armarResultado.length == 0) {
+      return res.status(204).send();
+    }
+    return res.status(200).json(armarResultado);
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      message:
+        "XX - No podes filtrar por categorias de habilidades blandas hahora",
+    });
   }
 };
 
@@ -89,4 +127,3 @@ const getAllPuntosPorCategoria = (listaCategorias, mapValores) => {
 
   return retornoRankings;
 };
-
