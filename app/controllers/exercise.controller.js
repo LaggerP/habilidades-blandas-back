@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const {categorias} = require("../models");
 const db = require("../models");
 const Exercise = db.exercise;
@@ -33,6 +34,21 @@ createExercises = async () => {
 //createExercises()
 //.then((r) => console.log("EJERCICIOS CREADOS CON ÉXITO"))
 //.catch((e) => console.log("OCURRIÓ UN ERROR AL CREAR EJERCICIOS", e));
+
+/**
+ * Obtiene todos los ejercicios pendientes de corregir
+ * @param req
+ * @param res
+ */
+ exports.getAllExercises = async (req, res) => {
+  try {
+    const result = await UserExercise.findAll({ where: {state: "ENTREGADA"} });
+    return res.status(200).json({ mesage: result });
+  } catch (e) {
+    console.log("XX - Error fetching all exercises");
+    return res.status(400).json({message: "XX - You cant fetch all the exercises"})
+  }
+};
 
 /**
  * Obtiene todos los ejercicios de un usuario a partir de su UserId.
