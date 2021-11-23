@@ -27,6 +27,7 @@ createUser = async () => {
 //.catch((e) => console.log("OCURRIÓ UN ERROR AL CREAR EL USUARIO"));
 
 exports.getUserDataByUserId = async (req, res) => {
+  console.log(req.params.userId)
   try {
     const result = await User.findOne({
       where: { id: req.params.userId },
@@ -38,13 +39,14 @@ exports.getUserDataByUserId = async (req, res) => {
       ],
     });
 
+    console.log("TRAIGO LA INFO", result)
     if (result !== null) {
       delete result.dataValues.password;
       res.status(200).send(result);
     }
     res.status(404).send("Usuario inexistente.");
   } catch (error) {
-    res.status(404).send(error.parent.sqlMessage);
+    res.status(404).json({message: error.parent.hint});
   }
 };
 exports.registerUser = async function (req, res) {
