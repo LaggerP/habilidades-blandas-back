@@ -3,10 +3,10 @@ const Categories = db.categories;
 
 const getAllCategories = async (req, res) => {
   try {
-    const result = await Categoria.findAll({ order: [["name", "DESC"]] });
+    const result = await Categories.findAll({ order: [["name", "DESC"]] });
     return res.status(200).json({ message: result });
   } catch (e) {
-    console.log("XX - Error fetchiong all categories");
+    console.log(e);
     return res.status(400).json({message: "XX - You cant fetch all the categories"})
   }
 };
@@ -15,7 +15,7 @@ const postCategory = async (req, res) => {
   try {
     const { name } = req.body;
     console.log(name)
-    const create = await Categoria.create({name:name});
+    const create = await Categories.create({name:name});
     return res.status(201).json({ message: create });
   } catch (e) {
     console.log("XX - Error posting category");
