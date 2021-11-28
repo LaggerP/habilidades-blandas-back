@@ -45,7 +45,7 @@ createExercises = async () => {
  exports.getAllExercises = async (req, res) => {
   try {
     const result = await UserExercise.findAll({ where: {state:[ "ENTREGADA"  , "CORREGIDA"]} });
-    return res.status(200).json({ mesage: result });
+    return res.status(200).send(result);
   } catch (e) {
     console.log("XX - Error fetching all exercises");
     return res.status(400).json({message: "XX - You cant fetch all the exercises"})
