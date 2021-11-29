@@ -1,3 +1,4 @@
+const e = require("cors");
 
 const { json } = require("body-parser");
 const {categorias} = require("../models");
@@ -182,11 +183,13 @@ exports.createNewExercise = async (req, res) => {
       order: [["name", "DESC"]],
     });
     let validation = false;
+    let variable;
     validate.forEach((e) => {
       console.log(e.id)
       if (e.name === exerciseCategory || e.id == exerciseCategory) {
         console.log("XX - Existe la validacion");
         validation = true;
+        variable=e;
       }
     });
     if (!validation) {
@@ -199,7 +202,7 @@ exports.createNewExercise = async (req, res) => {
       exerciseDescription: exerciseDescription,
       exercise: exercise,
       uriImg: uriImg,
-      exerciseCategory: exerciseCategory,
+      exerciseCategory: variable.name,
     });
     return res.status(201).json({ createdObject });
   } catch (e) {
