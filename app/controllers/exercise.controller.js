@@ -1,3 +1,4 @@
+const e = require("cors");
 
 const { json } = require("body-parser");
 const {categorias, exercise, userExercise} = require("../models");
@@ -47,11 +48,16 @@ createExercises = async () => {
 
 exports.getAllExercises = async (req, res) => {
   try {
+
     const result = await UserExercise.findAll({ 
                                           where: {state:[ "ENTREGADA"  , "CORREGIDA"]},
                                           include: Exercise,
                                           });
     return res.status(200).json({ mesage: result });
+
+    const result = await UserExercise.findAll({ where: {state:[ "ENTREGADA"  , "CORREGIDA"]} });
+    return res.status(200).json({message:result});
+
   } catch (e) {
     console.log("XX - Error fetching all exercises");
     return res.status(400).json({message: "XX - You cant fetch all the exercises"})
@@ -193,11 +199,13 @@ exports.createNewExercise = async (req, res) => {
       order: [["name", "DESC"]],
     });
     let validation = false;
+    let variable;
     validate.forEach((e) => {
       console.log(e.id)
       if (e.name === exerciseCategory || e.id == exerciseCategory) {
         console.log("XX - Existe la validacion");
         validation = true;
+        variable=e;
       }
     });
     if (!validation) {
@@ -210,7 +218,7 @@ exports.createNewExercise = async (req, res) => {
       exerciseDescription: exerciseDescription,
       exercise: exercise,
       uriImg: uriImg,
-      exerciseCategory: exerciseCategory,
+      exerciseCategory: variable.name,
     });
     return res.status(201).json({ createdObject });
   } catch (e) {
