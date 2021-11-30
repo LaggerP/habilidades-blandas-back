@@ -44,13 +44,26 @@ createExercises = async () => {
  */
  exports.getAllExercises = async (req, res) => {
   try {
-    const result = await UserExercise.findAll({ where: {state:[ "ENTREGADA"  , "CORREGIDA"]} });
+    const result = await UserExercise.findAll({ 
+                                          where: {state:[ "ENTREGADA"  , "CORREGIDA"]},
+                                          include: Exercise,
+                                          });
     return res.status(200).json({ mesage: result });
   } catch (e) {
     console.log("XX - Error fetching all exercises");
     return res.status(400).json({message: "XX - You cant fetch all the exercises"})
   }
 };
+//  exports.getAllExercises = async (req, res) => {
+//   try {
+//     const result = await UserExercise.findAll({ where: {state:[ "ENTREGADA"  , "CORREGIDA"]} });
+//     return res.status(200).json({ mesage: result });
+//   } catch (e) {
+//     console.log("XX - Error fetching all exercises");
+//     return res.status(400).json({message: "XX - You cant fetch all the exercises"})
+//   }
+// };
+
 
 /**
  * Obtiene todos los ejercicios de un usuario a partir de su UserId.
