@@ -47,18 +47,17 @@ createExercises = async () => {
 
 exports.getAllExercises = async (req, res) => {
   try {
-    const {exerciseId} = req.body;
-    const result = await UserExercise.findAll({ exerciseId: exerciseId, where: {state:[ "ENTREGADA"  , "CORREGIDA"]}, include:Exercise});
-
-    return res.status(201).json({messege: result});
-  }
-  catch(e)
-  {
-    console.log(e);
-    return res.status(400)
-    .json({messege: "XX - Error cargando los ejercicios, " + e});
+    const result = await UserExercise.findAll({ 
+                                          where: {state:[ "ENTREGADA"  , "CORREGIDA"]},
+                                          include: Exercise,
+                                          });
+    return res.status(200).json({ mesage: result });
+  } catch (e) {
+    console.log("XX - Error fetching all exercises");
+    return res.status(400).json({message: "XX - You cant fetch all the exercises"})
   }
 };
+
 
 
 
